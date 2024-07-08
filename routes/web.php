@@ -5,8 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    $recentPosts = \App\Models\Post::latest()->take(5)->get();
+    return view('homepage', compact('recentPosts'));
+})->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

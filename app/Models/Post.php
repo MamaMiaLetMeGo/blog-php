@@ -13,4 +13,11 @@ class Post extends Model
     protected $casts = [
         'published_at' => 'datetime',
     ];
+
+    public function readTime()
+    {
+        $words = str_word_count(strip_tags($this->content));
+        $minutes = ceil($words / 200);
+        return $minutes;
+    }
 }
