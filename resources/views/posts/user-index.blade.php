@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('My Posts') }}
         </h2>
     </x-slot>
 
@@ -11,7 +11,7 @@
                 <div class="p-6 text-gray-900">
                     <h3 class="text-lg font-semibold mb-4">Your Posts</h3>
                     
-                    @if(isset($posts) && $posts->count() > 0)
+                    @if($posts->count() > 0)
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>

@@ -20,6 +20,12 @@ class PostController extends Controller
         return view('admin.posts.index', compact('posts'));
     }
 
+    public function userPosts()
+    {
+        $posts = auth()->user()->posts()->latest()->paginate(10);
+        return view('posts.user-index', compact('posts'));
+    }
+
     public function create()
     {
         return view('posts.create');
