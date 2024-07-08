@@ -34,6 +34,10 @@ class PostController extends Controller
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
+        $post = new Post($validatedData);
+        $post->user()->associate(auth()->user());
+        $post->save();
+
         $validatedData['slug'] = Str::slug($request->title);
         $validatedData['published_at'] = now();
 

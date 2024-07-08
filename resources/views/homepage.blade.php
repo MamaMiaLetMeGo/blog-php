@@ -59,9 +59,9 @@
                                   @endif
                               </div>
                               <div class="ml-3">
-                                  <p class="text-sm font-medium text-gray-900">
-                                      {{ $post->user ? $post->user->name : 'Anonymous' }}
-                                  </p>
+                              <p class="text-sm font-medium text-gray-900">
+                                  {{ $post->user ? $post->user->name : 'Anonymous' }}
+                              </p>
                                   <div class="flex space-x-1 text-sm text-gray-500">
                                       <time datetime="{{ $post->published_at->toDateString() }}">
                                           {{ $post->published_at->format('M d, Y') }}

@@ -3,9 +3,10 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Models\Post;
 
 Route::get('/', function () {
-    $recentPosts = \App\Models\Post::latest()->take(5)->get();
+    $recentPosts = Post::with('user')->latest()->take(5)->get();
     return view('homepage', compact('recentPosts'));
 })->name('home');
 

@@ -20,4 +20,9 @@ class Post extends Model
         $minutes = ceil($words / 200);
         return $minutes;
     }
+
+    public function user()
+{
+    return $this->belongsTo(User::class);
+}
 }
