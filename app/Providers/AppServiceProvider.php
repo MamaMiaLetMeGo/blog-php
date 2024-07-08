@@ -19,6 +19,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->app->bind('admin', \App\Http\Middleware\AdminMiddleware::class);
     }
 }
