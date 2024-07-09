@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User; // Add this line to import the User model
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Gate;
+use Mews\Purifier\Facades\Purifier;
+
 
 class PostController extends Controller
 {
@@ -44,6 +47,7 @@ class PostController extends Controller
 
         $validatedData['slug'] = Str::slug($request->title);
         $validatedData['published_at'] = now();
+        $validatedData['content'] = Purifier::clean($validatedData['content']);
 
         if ($request->hasFile('thumbnail')) {
             $validatedData['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
@@ -82,6 +86,7 @@ class PostController extends Controller
         ]);
 
         $validatedData['slug'] = Str::slug($request->title);
+        $validatedData['content'] = Purifier::clean($validatedData['content']);
 
         if ($request->hasFile('thumbnail')) {
             // Delete old thumbnail

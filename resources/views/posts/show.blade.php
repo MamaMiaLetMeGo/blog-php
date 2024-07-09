@@ -27,7 +27,7 @@
                         </div>
 
                         <div class="prose max-w-none" id="post-content">
-                            {!! $post->content !!}
+                            {!! Purifier::clean($post->content) !!}
                         </div>
 
                         @if(auth()->user() && auth()->user()->is_admin)
