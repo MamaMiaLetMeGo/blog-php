@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -60,13 +61,18 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        $this->authorize('update', $post);
+        if (! Gate::allows('update', $post)) {
+            abort(403);
+        }
+        
         return view('posts.edit', compact('post'));
     }
 
     public function update(Request $request, Post $post)
     {
-        $this->authorize('update', $post);
+        if (! Gate::allows('update', $post)) {
+            abort(403);
+        }
 
         $validatedData = $request->validate([
             'title' => 'required|max:255',
@@ -92,7 +98,9 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-        $this->authorize('delete', $post);
+        if (! Gate::allows('delete', $post)) {
+            abort(403);
+        }
 
         // Delete thumbnail if exists
         if ($post->thumbnail) {
