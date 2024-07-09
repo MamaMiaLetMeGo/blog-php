@@ -1,35 +1,36 @@
 <x-app-layout>
 @push('scripts')
         <script>
-        tinymce.init({
-            selector: '#content',
-            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
-            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-            images_upload_url: '/upload-image', // You'll need to create this endpoint
-            images_upload_handler: function (blobInfo, success, failure) {
-            var xhr, formData;
-            xhr = new XMLHttpRequest();
-            xhr.withCredentials = false;
-            xhr.open('POST', '/upload-image');
-            xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
-            xhr.onload = function() {
-                var json;
-                if (xhr.status != 200) {
-                failure('HTTP Error: ' + xhr.status);
-                return;
-                }
-                json = JSON.parse(xhr.responseText);
-                if (!json || typeof json.location != 'string') {
-                failure('Invalid JSON: ' + xhr.responseText);
-                return;
-                }
-                success(json.location);
-            };
-            formData = new FormData();
-            formData.append('file', blobInfo.blob(), blobInfo.filename());
-            xhr.send(formData);
-            },
-        });
+            tinymce.init({
+                selector: '#content',
+                plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+                toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+                images_upload_url: '/upload-image', // You'll need to create this endpoint
+                document_base_url: 'https://mamamialetmego.github.io',
+                images_upload_handler: function (blobInfo, success, failure) {
+                    var xhr, formData;
+                    xhr = new XMLHttpRequest();
+                    xhr.withCredentials = false;
+                    xhr.open('POST', '/upload-image');
+                    xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+                    xhr.onload = function() {
+                        var json;
+                        if (xhr.status != 200) {
+                            failure('HTTP Error: ' + xhr.status);
+                            return;
+                        }
+                        json = JSON.parse(xhr.responseText);
+                        if (!json || typeof json.location != 'string') {
+                            failure('Invalid JSON: ' + xhr.responseText);
+                            return;
+                        }
+                        success(json.location);
+                    };
+                    formData = new FormData();
+                    formData.append('file', blobInfo.blob(), blobInfo.filename());
+                    xhr.send(formData);
+                },
+            });
         </script>
     @endpush
     <x-slot name="header">
