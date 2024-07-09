@@ -34,13 +34,13 @@
             <div class="mt-12 grid gap-5 max-w-lg mx-auto lg:grid-cols-3 lg:max-w-none">
                 @foreach ($recentPosts as $post)
                     <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
-                        <div class="flex-shrink-0">
-                            @if ($post->thumbnail)
-                                <img class="h-48 w-full object-cover" src="{{ asset('storage/' . $post->thumbnail) }}" alt="{{ $post->title }}">
-                            @else
-                                <div class="h-48 w-full bg-gray-200"></div>
-                            @endif
-                        </div>
+                    <div class="flex-shrink-0">
+                        @if($post->thumbnail && Storage::disk('public')->exists($post->thumbnail))
+                            <img class="h-48 w-full object-cover" src="{{ Storage::url($post->thumbnail) }}" alt="{{ $post->title }}">
+                        @else
+                            <div class="h-48 w-full bg-gray-200 flex items-center justify-center text-gray-500">No Image</div>
+                        @endif
+                    </div>
                         <div class="flex-1 bg-white p-6 flex flex-col justify-between">
                             <div class="flex-1">
                                 <a href="{{ route('posts.show', $post->slug) }}" class="block mt-2">

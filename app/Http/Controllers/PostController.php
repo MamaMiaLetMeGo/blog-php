@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -40,10 +41,6 @@ class PostController extends Controller
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $post = new Post($validatedData);
-        $post->user()->associate(auth()->user());
-        $post->save();
-
         $validatedData['slug'] = Str::slug($request->title);
         $validatedData['published_at'] = now();
 
@@ -51,9 +48,9 @@ class PostController extends Controller
             $validatedData['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
         }
 
-        Post::create($validatedData);
+        $post = auth()->user()->posts()->create($validatedData);
 
-        return redirect()->route('admin.posts.index')->with('success', 'Post created successfully');
+        return redirect()->route('user.posts.index')->with('success', 'Post created successfully');
     }
 
     public function show(Post $post)
@@ -63,11 +60,14 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
+        $this->authorize('update', $post);
         return view('posts.edit', compact('post'));
     }
 
     public function update(Request $request, Post $post)
     {
+        $this->authorize('update', $post);
+
         $validatedData = $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
@@ -78,17 +78,28 @@ class PostController extends Controller
         $validatedData['slug'] = Str::slug($request->title);
 
         if ($request->hasFile('thumbnail')) {
+            // Delete old thumbnail
+            if ($post->thumbnail) {
+                Storage::disk('public')->delete($post->thumbnail);
+            }
             $validatedData['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
         }
 
         $post->update($validatedData);
 
-        return redirect()->route('admin.posts.index')->with('success', 'Post updated successfully');
+        return redirect()->route('user.posts.index')->with('success', 'Post updated successfully');
     }
 
     public function destroy(Post $post)
     {
+        $this->authorize('delete', $post);
+
+        // Delete thumbnail if exists
+        if ($post->thumbnail) {
+            Storage::disk('public')->delete($post->thumbnail);
+        }
+
         $post->delete();
-        return redirect()->route('posts.index')->with('success', 'Post deleted successfully');
+        return redirect()->route('user.posts.index')->with('success', 'Post deleted successfully');
     }
 }
