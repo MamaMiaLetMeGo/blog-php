@@ -22,7 +22,7 @@
                                     {{ $post->title }}
                                 </a>
                             </h3>
-                            <p class="text-gray-600">{{ Str::limit($post->content, 100) }}</p>
+                            <p class="text-gray-600">{!! Str::limit($post->content, 100) !!}</p>
                             <p class="text-sm text-gray-500 mt-2">Published: {{ $post->published_at->format('M d, Y') }}</p>
                             
                             @if(auth()->user() && auth()->user()->is_admin)

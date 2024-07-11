@@ -25,7 +25,7 @@
                         <div class="text-gray-600 mb-4">
                             Published on {{ $post->published_at->format('F d, Y') }} by {{ $post->user->name ?? 'Unknown' }}
                         </div>
-
+                        
                         <div class="prose max-w-none" id="post-content">
                             {!! $post->content !!}
                         </div>
