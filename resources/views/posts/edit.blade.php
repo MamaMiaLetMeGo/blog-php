@@ -51,29 +51,14 @@
     <script>
         // Initialize CKEditor
         ClassicEditor
-            .create(document.querySelector('#content'), {
-                toolbar: {
-                    items: [
-                        'undo', 'redo',
-                        '|',
-                        'heading',
-                        '|',
-                        'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor',
-                        '|',
-                        'bold', 'italic', 'strikethrough', 'subscript', 'superscript', 'code',
-                        '|',
-                        'link', 'uploadImage', 'blockQuote', 'codeBlock',
-                        '|',
-                        'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'
-                    ],
-                }
-            })
-            .then(editor => {
-                console.log('Editor was initialized', editor);
-            })
-            .catch(error => {
-                console.error('Error during initialization of the editor', error);
-            });
+        .create( document.querySelector( '#content' ), {
+            ckfinder: {
+                uploadUrl: '{{route('ckeditor.upload').'?_token='.csrf_token()}}',
+            }
+        })
+        .catch( error => {
+            console.error( error );
+        });
     </script>
     @endpush
 </x-app-layout>
