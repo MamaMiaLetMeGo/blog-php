@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->foreignId('subcategory_id')->constrained()->onDelete('cascade');
-            $table->foreignId('state_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->string('slug')->unique();
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('state_id')->constrained()->onDelete('cascade');
             $table->string('file_path');
+            $table->text('content')->nullable();
             $table->timestamps();
         });
     }

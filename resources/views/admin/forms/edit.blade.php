@@ -12,7 +12,6 @@
                 <form action="{{ route('admin.forms.update', [
                     'form' => $form,
                     'category' => $form->category->slug ?? 'unknown',
-                    'subcategory' => $form->subcategory->slug ?? 'unknown',
                     'state' => $form->state->slug ?? 'unknown'
                 ]) }}" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -29,17 +28,6 @@
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}" {{ $form->category_id == $category->id ? 'selected' : '' }}>
                                         {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="subcategory_id" class="block text-sm font-medium text-gray-700">Subcategory</label>
-                            <select name="subcategory_id" id="subcategory_id" class="mt-1 block w-full" required>
-                                @foreach($subcategories as $subcategory)
-                                    <option value="{{ $subcategory->id }}" {{ $form->subcategory_id == $subcategory->id ? 'selected' : '' }}>
-                                        {{ $subcategory->name }}
                                     </option>
                                 @endforeach
                             </select>

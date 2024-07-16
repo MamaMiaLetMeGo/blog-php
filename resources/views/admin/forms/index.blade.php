@@ -14,7 +14,6 @@
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Form Name</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subcategory</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">State</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                             </tr>
@@ -25,7 +24,6 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <a href="{{ route('forms.show', [
                                             'category' => $form->category->slug,
-                                            'subcategory' => $form->subcategory->slug,
                                             'state' => $form->state->slug,
                                             'form' => $form->slug
                                         ]) }}" class="text-blue-600 hover:text-blue-900" target="_blank">
@@ -33,7 +31,6 @@
                                         </a>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $form->category->name }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $form->subcategory->name }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $form->state->name }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <a href="{{ route('admin.forms.edit', $form) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>

@@ -7,15 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class State extends Model
 {
-    protected $fillable = ['name', 'slug', 'subcategory_id'];
+    protected $fillable = ['name', 'slug'];
 
     public function forms()
     {
         return $this->hasMany(Form::class);
-    }
-
-    public function subcategory()
-    {
-        return $this->belongsTo(Subcategory::class);
     }
 }

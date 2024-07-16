@@ -7,7 +7,6 @@ use App\Http\Controllers\CkeditorController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Admin\StateController;
 
 use App\Models\Post;
@@ -74,10 +73,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('states', [StateController::class, 'index'])->name('admin.states.index');
         Route::get('states/create', [StateController::class, 'create'])->name('admin.states.create');
         Route::post('states', [StateController::class, 'store'])->name('admin.states.store');
-        Route::get('states/{category}/{subcategory}/{state}', [StateController::class, 'show'])->name('admin.states.show');
-        Route::get('states/{category}/{subcategory}/{state}/edit', [StateController::class, 'edit'])->name('admin.states.edit');
-        Route::put('states/{category}/{subcategory}/{state}', [StateController::class, 'update'])->name('admin.states.update');
-        Route::delete('states/{category}/{subcategory}/{state}', [StateController::class, 'destroy'])->name('admin.states.destroy');
+        Route::get('states/{category}/{state}', [StateController::class, 'show'])->name('admin.states.show');
+        Route::get('states/{category}/{state}/edit', [StateController::class, 'edit'])->name('admin.states.edit');
+        Route::put('states/{category}/{state}', [StateController::class, 'update'])->name('admin.states.update');
+        Route::delete('states/{category}/{state}', [StateController::class, 'destroy'])->name('admin.states.destroy');
     });
 
     // Admin category routes
@@ -88,27 +87,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('categories/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
     Route::put('categories/{category}', [CategoryController::class, 'update'])->name('admin.categories.update');
     Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
-
-    // Admin subcategory routes
-    Route::get('subcategories', [SubcategoryController::class, 'index'])->name('admin.subcategories.index');
-    Route::get('subcategories/create', [SubcategoryController::class, 'create'])->name('admin.subcategories.create');
-    Route::post('subcategories', [SubcategoryController::class, 'store'])->name('admin.subcategories.store');
-    Route::get('subcategories/{category}/{subcategory}', [SubcategoryController::class, 'show'])->name('admin.subcategories.show');
-    Route::get('subcategories/{category}/{subcategory}/edit', [SubcategoryController::class, 'edit'])->name('admin.subcategories.edit');
-    Route::put('subcategories/{category}/{subcategory}', [SubcategoryController::class, 'update'])->name('admin.subcategories.update');
-    Route::delete('subcategories/{category}/{subcategory}', [SubcategoryController::class, 'destroy'])->name('admin.subcategories.destroy');
 });
 
-// Public routes for viewing categories, subcategories, states, and forms
+// Public routes for viewing categories, states, and forms
 Route::get('/{category}', [FormController::class, 'category'])->name('category.show');
-Route::get('/{category}/{subcategory}', [FormController::class, 'subcategory'])->name('subcategory.show');
-Route::get('/{category}/{subcategory}/{state}', [FormController::class, 'state'])->name('state.show');
-Route::get('/{category}/{subcategory}/{state}/forms', [FormController::class, 'index'])->name('forms.index');
-Route::get('/{category}/{subcategory}/{state}/{form}', [FormController::class, 'publicShow'])
+Route::get('/{category}/{state}', [FormController::class, 'state'])->name('state.show');
+Route::get('/{category}/{state}/forms', [FormController::class, 'index'])->name('forms.index');
+Route::get('/{category}/{state}/{form}', [FormController::class, 'publicShow'])
     ->name('forms.show')
     ->where([
         'category' => '[a-z0-9-]+',
-        'subcategory' => '[a-z0-9-]+',
         'state' => '[a-z0-9-]+',
         'form' => '[a-z0-9-]+'
     ]);

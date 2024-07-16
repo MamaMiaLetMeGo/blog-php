@@ -12,18 +12,17 @@
                     <h3 class="text-lg font-semibold mb-4">{{ $state->description }}</h3>
     
                     <p>Category: <a href="{{ route('category.show', $category->slug) }}">{{ $category->name }}</a></p>
-                    <p>Subcategory: <a href="{{ route('subcategory.show', [$category->slug, $subcategory->slug]) }}">{{ $subcategory->name }}</a></p>
 
                     <h2>Forms</h2>
                     <ul>
                         @foreach($forms as $form)
                             <li>
-                                <a href="{{ route('forms.show', [$category->slug, $subcategory->slug, $state->slug, $form->slug]) }}">
+                                <a href="{{ route('forms.show', [$category->slug, $state->slug, $form->slug]) }}">
                                     {{ $form->name }}
                                 </a>
                             </li>
                         @endforeach
-                        <a href="{{ route('admin.states.edit', [$category->slug, $subcategory->slug, $state->slug]) }}" class="mt-4 inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit State</a>
+                        <a href="{{ route('admin.states.edit', [$category->slug, $state->slug]) }}" class="mt-4 inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit State</a>
                     </ul>
                 </div>
             </div>

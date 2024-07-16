@@ -27,15 +27,6 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="subcategory_id" class="block text-sm font-medium text-gray-700">Subcategory</label>
-                            <select name="subcategory_id" id="subcategory_id" class="mt-1 block w-full" required>
-                                @foreach($subcategories as $subcategory)
-                                    <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="mb-4">
                             <label for="state_id" class="block text-sm font-medium text-gray-700">State</label>
                             <select name="state_id" id="state_id" class="mt-1 block w-full" required>
                                 @foreach($states as $state)
