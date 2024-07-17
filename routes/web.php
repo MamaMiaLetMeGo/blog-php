@@ -73,10 +73,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('states', [StateController::class, 'index'])->name('admin.states.index');
         Route::get('states/create', [StateController::class, 'create'])->name('admin.states.create');
         Route::post('states', [StateController::class, 'store'])->name('admin.states.store');
-        Route::get('states/{category}/{state}', [StateController::class, 'show'])->name('admin.states.show');
-        Route::get('states/{category}/{state}/edit', [StateController::class, 'edit'])->name('admin.states.edit');
-        Route::put('states/{category}/{state}', [StateController::class, 'update'])->name('admin.states.update');
-        Route::delete('states/{category}/{state}', [StateController::class, 'destroy'])->name('admin.states.destroy');
+        Route::get('states/{state}', [StateController::class, 'show'])->name('admin.states.show');
+        Route::get('states/{state}/edit', [StateController::class, 'edit'])->name('admin.states.edit');
+        Route::put('states/{state}', [StateController::class, 'update'])->name('admin.states.update');
+        Route::delete('states/{state}', [StateController::class, 'destroy'])->name('admin.states.destroy');
     });
 
     // Admin category routes
