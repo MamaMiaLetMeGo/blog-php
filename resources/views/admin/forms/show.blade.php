@@ -5,14 +5,29 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-5">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex">
                 <!-- Main content area -->
                 <div class="w-3/4 pr-4">
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div class="p-6 bg-white border-b border-gray-200">
-                            <p>Category: {{ $category->name }}</p>
+                        <ol class="list-reset flex text-sm">
+                            <li>
+                                <a href="{{ route('home') }}" class="text-blue-600 hover:text-blue-700">Home</a>
+                            </li>
+                            <li><span class="text-gray-500 mx-2">/</span></li>
+                            <li>
+                                <a href="{{ route('category.show', $category->slug) }}" class="text-blue-600 hover:text-blue-700">{{ $category->name }}</a>
+                            </li>
+                            <li><span class="text-gray-500 mx-2">/</span></li>
+                            <li>
+                                <a href="{{ route('state.show', ['category' => $category->slug, 'state' => $state->slug]) }}" class="text-blue-600 hover:text-blue-700">{{ $state->name }}</a>
+                            </li>
+                            <li><span class="text-gray-500 mx-2">/</span></li>
+                            <li class="text-gray-500">{{ $form->name }}</li>
+                        </ol>
+                            <p class="pt-2">Category: {{ $category->name }}</p>
                             <p>State: {{ $state->name }}</p>
 
                             <div class="mt-6">
