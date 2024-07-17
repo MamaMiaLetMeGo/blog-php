@@ -41,6 +41,11 @@
                         </div>
 
                         <div class="mb-4">
+                            <label for="content_header" class="block text-sm font-medium text-gray-700">Content Header</label>
+                            <textarea id="content_header" name="content_header" class="mt-1 block w-full" rows="3"></textarea>
+                        </div>
+
+                        <div class="mb-4">
                             <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
                             <textarea id="content" name="content" class="mt-1 block w-full" rows="3"></textarea>
                         </div>
@@ -59,6 +64,16 @@
     @push('scripts')
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
     <script>
+        ClassicEditor
+            .create( document.querySelector( '#content_header' ), {
+                ckfinder: {
+                    uploadUrl: '{{ route('ckeditor.upload') }}'
+                }
+            })
+            .catch( error => {
+                console.error( error );
+            });
+
         ClassicEditor
             .create( document.querySelector( '#content' ), {
                 ckfinder: {

@@ -25,7 +25,6 @@ class FormController extends Controller
     public function category($category)
     {
         $category = Category::where('slug', $category)->firstOrFail();
-
         return view('category.show', compact('category'));
     }
 
@@ -33,55 +32,9 @@ class FormController extends Controller
     {
         $category = Category::where('slug', $category)->firstOrFail();
         $state = State::where('slug', $state)->firstOrFail();
-        $forms = $state->forms()->where('category_id', $category->id)
-                                ->get();
+        $forms = $state->forms()->where('category_id', $category->id)->get();
 
         return view('state.show', compact('category', 'state', 'forms'));
-    }
-
-    public function editCategory($category)
-    {
-        $category = Category::where('slug', $category)->firstOrFail();
-
-        return view('category.edit', compact('category'));
-    }
-
-    public function editState($category, $state)
-    {
-        $category = Category::where('slug', $category)->firstOrFail();
-        $state = State::where('slug', $state)->firstOrFail();
-
-        return view('state.edit', compact('category', 'state'));
-    }
-
-    public function updateCategory(Request $request, $category)
-    {
-        $category = Category::where('slug', $category)->firstOrFail();
-        
-        $validatedData = $request->validate([
-            'name' => 'required|max:255',
-            'description' => 'nullable',
-            // Add other fields as needed
-        ]);
-
-        $category->update($validatedData);
-
-        return redirect()->route('category.show', $category->slug)->with('success', 'Category updated successfully');
-    }
-
-    public function updateState(Request $request, $category, $state)
-    {
-        $state = State::where('slug', $state)->firstOrFail();
-        
-        $validatedData = $request->validate([
-            'name' => 'required|max:255',
-            'description' => 'nullable',
-            // Add other fields as needed
-        ]);
-
-        $state->update($validatedData);
-
-        return redirect()->route('state.show', [$category, $state->slug])->with('success', 'State updated successfully');
     }
 
     public function edit(Form $form)
@@ -101,6 +54,7 @@ class FormController extends Controller
             'name' => 'required|max:255',
             'category_id' => 'required|exists:categories,id',
             'state_id' => 'required|exists:states,id',
+            'content_header' => 'nullable',
             'content' => 'nullable',
             'file' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
         ]);
@@ -143,6 +97,34 @@ class FormController extends Controller
                     ->where('state_id', $state->id)
                     ->firstOrFail();
 
-        return view('admin.forms.show', compact('category', 'state', 'form'));
+        return view('forms.show', compact('category', 'state', 'form'));
+    }
+
+    public function create()
+    {
+        $categories = Category::all();
+        $states = State::all();
+
+        return view('admin.forms.create', compact('categories', 'states'));
+    }
+
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'state_id' => 'required|exists:states,id',
+            'content_header' => 'nullable',
+            'content' => 'nullable',
+            'file' => 'required|file|mimes:pdf,doc,docx|max:10240',
+        ]);
+
+        $validatedData['slug'] = Str::slug($validatedData['name']);
+        $validatedData['file_path'] = $request->file('file')->store('forms', 'public');
+
+        $form = Form::create($validatedData);
+
+        return redirect()->route('admin.forms.show', $form)
+                 ->with('success', 'Form created successfully');
     }
 }

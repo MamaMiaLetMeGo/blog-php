@@ -26,23 +26,25 @@ class AdminController extends Controller
 
     public function storeForm(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|max:255',
             'category_id' => 'required|exists:categories,id',
             'state_id' => 'required|exists:states,id',
-            'file' => 'required|file|mimes:pdf,doc,docx|max:10240',
+            'content_header' => 'nullable',
             'content' => 'nullable',
+            'file' => 'required|file|mimes:pdf,doc,docx|max:10240',
         ]);
 
         $filePath = $request->file('file')->store('forms', 'public');
 
         Form::create([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name),
-            'category_id' => $request->category_id,
-            'state_id' => $request->state_id,
+            'name' => $validatedData['name'],
+            'slug' => Str::slug($validatedData['name']),
+            'category_id' => $validatedData['category_id'],
+            'state_id' => $validatedData['state_id'],
             'file_path' => $filePath,
-            'content' => $request->content,
+            'content_header' => $validatedData['content_header'],
+            'content' => $validatedData['content'],
         ]);
 
         return redirect()->route('admin.forms.index')->with('success', 'Form created successfully.');
