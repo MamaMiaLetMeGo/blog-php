@@ -34,6 +34,11 @@
                             @else
                                 <p class="mb-4">No description available for this form.</p>
                             @endif
+                            @if($form->file_path)
+                                <a href="{{ asset('storage/' . $form->file_path) }}" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                    Download Form
+                                </a>
+                            @endif
                         </div>
                         <!-- Right side: PDF Thumbnail -->
                         <div class="w-full md:w-1/3">
@@ -61,7 +66,7 @@
                 <div class="w-full md:w-3/4 md:pr-4 mb-6 md:mb-0">
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div class="p-6 bg-white border-b border-gray-200">
-                            <div class="prose max-w-none">
+                            <div class="prose max-w-none" id="form-content">
                                 {!! $form->content !!}
                             </div>
                         </div>
@@ -69,23 +74,26 @@
                 </div>
                 
                 <!-- Sidebar -->
-                <div class="w-full md:w-1/4 md:pl-4">
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div class="p-4">
-                            <h4 class="text-lg font-semibold mb-2">Additional Information</h4>
-                            <!-- Add any additional sidebar content here -->
-                            @auth
-                                @if(auth()->user()->is_admin)
-                                    <div class="mt-2 text-center">
-                                        <a href="{{ route('admin.forms.edit', $form) }}" class="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
-                                            Edit Page
-                                        </a>
-                                    </div>
-                                @endif
-                            @endauth
-                        </div>
-                    </div>
-                </div>
+              <div class="w-full md:w-1/4 md:pl-4">
+                  <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg sticky top-4">
+                      <div class="p-4">
+                          <h4 class="text-lg font-semibold mb-2">Table of Contents</h4>
+                          <nav id="toc" class="space-y-1 max-h-[50vh] overflow-y-auto pr-2"></nav>
+                          
+                          <h4 class="text-lg font-semibold mb-2 mt-4">Additional Information</h4>
+                          <!-- Add any additional sidebar content here -->
+                          @auth
+                              @if(auth()->user()->is_admin)
+                                  <div class="mt-2 text-center">
+                                      <a href="{{ route('admin.forms.edit', $form) }}" class="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                                          Edit Page
+                                      </a>
+                                  </div>
+                              @endif
+                          @endauth
+                      </div>
+                  </div>
+              </div>
             </div>
         </div>
     </div>
