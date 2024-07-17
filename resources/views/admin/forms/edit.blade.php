@@ -72,14 +72,24 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
     <script>
         ClassicEditor
-            .create( document.querySelector( '#content' ), {
-                ckfinder: {
-                    uploadUrl: '{{ route('ckeditor.upload') }}'
-                }
-            })
-            .catch( error => {
-                console.error( error );
-            });
+        .create(document.querySelector('#content'), {
+            ckfinder: {
+                uploadUrl: '{{ route('ckeditor.upload') }}'
+            },
+            htmlSupport: {
+                allow: [
+                    {
+                        name: /.*/,
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    }
+                ]
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
     </script>
     @endpush
 </x-app-layout>

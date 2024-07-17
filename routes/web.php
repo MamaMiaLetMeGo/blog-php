@@ -69,24 +69,22 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::delete('/admin/forms/{form}', [AdminController::class, 'destroyForm'])->name('admin.forms.destroy');
 
     // Admin state routes
-    Route::group(['prefix' => 'admin'], function () {
-        Route::get('states', [StateController::class, 'index'])->name('admin.states.index');
-        Route::get('states/create', [StateController::class, 'create'])->name('admin.states.create');
-        Route::post('states', [StateController::class, 'store'])->name('admin.states.store');
-        Route::get('states/{state}', [StateController::class, 'show'])->name('admin.states.show');
-        Route::get('states/{state}/edit', [StateController::class, 'edit'])->name('admin.states.edit');
-        Route::put('states/{state}', [StateController::class, 'update'])->name('admin.states.update');
-        Route::delete('states/{state}', [StateController::class, 'destroy'])->name('admin.states.destroy');
-    });
+    Route::get('/admin/states', [StateController::class, 'index'])->name('admin.states.index');
+    Route::get('/admin/states/create', [StateController::class, 'create'])->name('admin.states.create');
+    Route::post('/admin/states', [StateController::class, 'store'])->name('admin.states.store');
+    Route::get('/admin/states/{state}', [StateController::class, 'show'])->name('admin.states.show');
+    Route::get('/admin/states/{state}/edit', [StateController::class, 'edit'])->name('admin.states.edit');
+    Route::put('/admin/states/{state}', [StateController::class, 'update'])->name('admin.states.update');
+    Route::delete('/admin/states/{state}', [StateController::class, 'destroy'])->name('admin.states.destroy');
 
     // Admin category routes
-    Route::get('categories', [CategoryController::class, 'index'])->name('admin.categories.index');
-    Route::get('categories/create', [CategoryController::class, 'create'])->name('admin.categories.create');
-    Route::post('categories', [CategoryController::class, 'store'])->name('admin.categories.store');
-    Route::get('categories/{category}', [CategoryController::class, 'show'])->name('admin.categories.show');
-    Route::get('categories/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
-    Route::put('categories/{category}', [CategoryController::class, 'update'])->name('admin.categories.update');
-    Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+    Route::get('/admin/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
+    Route::get('/admin/categories/create', [CategoryController::class, 'create'])->name('admin.categories.create');
+    Route::post('/admin/categories', [CategoryController::class, 'store'])->name('admin.categories.store');
+    Route::get('/admin/categories/{category}', [CategoryController::class, 'show'])->name('admin.categories.show');
+    Route::get('/admin/categories/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
+    Route::put('/admin/categories/{category}', [CategoryController::class, 'update'])->name('admin.categories.update');
+    Route::delete('/admin/categories/{category}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
 });
 
 // Public routes for viewing categories, states, and forms

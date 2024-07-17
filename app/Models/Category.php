@@ -13,4 +13,9 @@ class Category extends Model
     {
         return $this->hasMany(Form::class);
     }
+
+    public function states()
+    {
+        return $this->hasMany(State::class);
+    }
 }

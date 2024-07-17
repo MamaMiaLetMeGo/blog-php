@@ -4,14 +4,21 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\State;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class StateController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $states = State::all();
+        $sort = $request->input('sort', 'name');
+        $direction = $request->input('direction', 'asc');
+
+        $states = State::with('category')
+                    ->orderBy($sort, $direction)
+                    ->paginate(10);
+
         return view('admin.states.index', compact('states'));
     }
 
@@ -41,18 +48,21 @@ class StateController extends Controller
 
     public function edit(State $state)
     {
-        return view('admin.states.edit', compact('state'));
+        $categories = Category::all();
+        return view('admin.states.edit', compact('state', 'categories'));
     }
 
     public function update(Request $request, State $state)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|unique:states,name,' . $state->id . '|max:255',
+            'category_id' => 'required|exists:categories,id',
         ]);
 
         $state->update([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name),
+            'name' => $validatedData['name'],
+            'slug' => Str::slug($validatedData['name']),
+            'category_id' => $validatedData['category_id'],
         ]);
 
         return redirect()->route('admin.states.index')->with('success', 'State updated successfully.');
