@@ -127,4 +127,20 @@ class FormController extends Controller
         return redirect()->route('admin.forms.show', $form)
                  ->with('success', 'Form created successfully');
     }
+
+    public function download($category, $state, $form)
+    {
+        $form = Form::where('slug', $form)
+                    ->whereHas('category', function ($query) use ($category) {
+                        $query->where('slug', $category);
+                    })
+                    ->whereHas('state', function ($query) use ($state) {
+                        $query->where('slug', $state);
+                    })
+                    ->firstOrFail();
+
+        $form->increment('downloads');
+        
+        return response()->download(storage_path('app/public/' . $form->file_path));
+    }
 }

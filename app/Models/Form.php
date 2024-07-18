@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Form extends Model
 {
-    protected $fillable = ['name', 'slug', 'file_path', 'category_id', 'state_id', 'content', 'content_header'];
+    protected $fillable = ['name', 'slug', 'file_path', 'category_id', 'state_id', 'content', 'content_header', 'downloads'];
 
     public function category()
     {

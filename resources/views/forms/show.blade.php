@@ -31,9 +31,16 @@
                             @endif
                             
                             @if($form->file_path)
-                                <a href="{{ asset('storage/' . $form->file_path) }}" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                    Download Form
-                                </a>
+                                <div class="mb-4">
+                                    <a href="{{ route('forms.download', ['category' => $category->slug, 'state' => $state->slug, 'form' => $form->slug]) }}" 
+                                       class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                        Download Form
+                                    </a>
+                                </div>
+                                <div class="text-md text-gray-600 flex items-center space-x-4">
+                                    <span>Downloads: <span class="download-count font-semibold">{{ $form->downloads }}</span></span>
+                                    <!-- Add other information here as needed -->
+                                </div>
                             @endif
                         </div>
                         <!-- Right side: PDF Thumbnail -->
@@ -138,8 +145,30 @@
 
                 // Set the download link
                 const downloadLink = document.getElementById('pdf-download-link');
-                downloadLink.href = url;
-                downloadLink.download = '{{ $form->name }}.pdf'; // Set the download filename
+                downloadLink.href = "{{ route('forms.download', ['category' => $category->slug, 'state' => $state->slug, 'form' => $form->slug]) }}";
+                downloadLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    fetch(this.href)
+                        .then(response => response.blob())
+                        .then(blob => {
+                            const url = window.URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.style.display = 'none';
+                            a.href = url;
+                            a.download = '{{ $form->name }}.pdf';
+                            document.body.appendChild(a);
+                            a.click();
+                            window.URL.revokeObjectURL(url);
+                            // Update the download count on the page
+                            const downloadCount = document.querySelector('.download-count');
+                            if (downloadCount) {
+                                const newCount = parseInt(downloadCount.textContent) + 1;
+                                document.querySelectorAll('.download-count').forEach(el => {
+                                    el.textContent = newCount;
+                                });
+                            }
+                        });
+                });
             }
 
             function closePdfModal() {

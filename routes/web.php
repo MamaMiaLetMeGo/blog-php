@@ -98,3 +98,11 @@ Route::get('/{category}/{state}/{form}', [FormController::class, 'publicShow'])
         'state' => '[a-z0-9-]+',
         'form' => '[a-z0-9-]+'
     ]);
+
+Route::get('/{category}/{state}/{form}/download', [FormController::class, 'download'])
+->name('forms.download')
+->where([
+    'category' => '[a-z0-9-]+',
+    'state' => '[a-z0-9-]+',
+    'form' => '[a-z0-9-]+'
+]);
