@@ -1,39 +1,35 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ $form->name }}
-        </h2>
-    </x-slot>
-
     <div class="py-5">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <!-- Breadcrumbs -->
-            <nav class="mb-4">
-                <ol class="list-reset flex text-sm">
-                    <li><a href="{{ route('home') }}" class="text-blue-600 hover:text-blue-700">Home</a></li>
-                    <li><span class="text-gray-500 mx-2">/</span></li>
-                    <li><a href="{{ route('category.show', $category->slug) }}" class="text-blue-600 hover:text-blue-700">{{ $category->name }}</a></li>
-                    <li><span class="text-gray-500 mx-2">/</span></li>
-                    <li><a href="{{ route('state.show', ['category' => $category->slug, 'state' => $state->slug]) }}" class="text-blue-600 hover:text-blue-700">{{ $state->name }}</a></li>
-                    <li><span class="text-gray-500 mx-2">/</span></li>
-                    <li class="text-gray-500">{{ $form->name }}</li>
-                </ol>
-            </nav>
-
             <!-- Content Header -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="flex flex-col md:flex-row">
-                        <!-- Left side: Title, Content Header, Download Button -->
+                        <!-- Left side: Breadcrumbs, Title, Content Header, Download Button -->
                         <div class="w-full md:w-2/3 pr-4 mb-4 md:mb-0">
-                            <h1 class="text-3xl font-bold mb-4">{{ $form->name }}</h1>
+                            <!-- Breadcrumbs -->
+                            <nav class="mb-4">
+                                <ol class="list-reset flex text-sm">
+                                    <li><a href="{{ route('home') }}" class="text-blue-600 hover:text-blue-700">Home</a></li>
+                                    <li><span class="text-gray-500 mx-2">/</span></li>
+                                    <li><a href="{{ route('category.show', $category->slug) }}" class="text-blue-600 hover:text-blue-700">{{ $category->name }}</a></li>
+                                    <li><span class="text-gray-500 mx-2">/</span></li>
+                                    <li><a href="{{ route('state.show', ['category' => $category->slug, 'state' => $state->slug]) }}" class="text-blue-600 hover:text-blue-700">{{ $state->name }}</a></li>
+                                    <li><span class="text-gray-500 mx-2">/</span></li>
+                                    <li class="text-gray-500">{{ $form->name }}</li>
+                                </ol>
+                            </nav>
+                            
+                            <h1 class="text-3xl font-bold mb-6">{{ $form->name }}</h1>
+                            
                             @if($form->content_header)
-                                <div class="mb-4">
+                                <div class="mb-6">
                                     {!! $form->content_header !!}
                                 </div>
                             @else
-                                <p class="mb-4">No description available for this form.</p>
+                                <p class="mb-6">No description available for this form.</p>
                             @endif
+                            
                             @if($form->file_path)
                                 <a href="{{ asset('storage/' . $form->file_path) }}" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                     Download Form
