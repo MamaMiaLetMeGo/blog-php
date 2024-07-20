@@ -29,8 +29,8 @@
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ $state->name }}</td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{{ $state->slug }}</td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                        <a href="{{ route('admin.states.edit', $state) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Edit</a>
-                                        <form action="{{ route('admin.states.destroy', $state) }}" method="POST" class="inline">
+                                        <a href="{{ route('admin.states.edit', [$category, $state]) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Edit</a>
+                                        <form action="{{ route('admin.states.destroy', $category, $state) }}" method="POST" class="inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this state?')">Delete</button>

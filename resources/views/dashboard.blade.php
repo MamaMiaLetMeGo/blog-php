@@ -76,8 +76,12 @@
                                             </a>
                                         </div>
                                     </td>
-                                    <!-- ... other columns ... -->
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-500">
+                                            {{ $form->created_at->format('M d, Y') }}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <a href="{{ route('admin.forms.edit', $form) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
                                     </td>
                                 </tr>
@@ -157,9 +161,13 @@
                                     <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm font-medium text-gray-900">
-                                            <a href="{{ route('state.show', ['category' => $category->slug, 'state' => $state->slug]) }}" class="text-indigo-600 hover:text-indigo-900">
+                                            @if($state->category)
+                                                <a href="{{ route('state.show', ['category' => $state->category->slug, 'state' => $state->slug]) }}" class="text-indigo-600 hover:text-indigo-900">
+                                                    {{ $state->name }}
+                                                </a>
+                                            @else
                                                 {{ $state->name }}
-                                            </a>
+                                            @endif
                                         </div>
                                     </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
@@ -168,7 +176,11 @@
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <a href="{{ route('admin.states.edit', $state) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                            @if($state->category)
+                                                <a href="{{ route('admin.states.edit', [$state->category, $state]) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                            @else
+                                                <span class="text-red-600">No category assigned</span>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

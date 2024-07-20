@@ -10,49 +10,50 @@ use Illuminate\Support\Str;
 
 class StateController extends Controller
 {
-    public function index(Request $request)
+    public function index(Category $category, Request $request)
     {
         $sort = $request->input('sort', 'name');
         $direction = $request->input('direction', 'asc');
 
-        $states = State::with('category')
+        $states = $category->states()
                     ->orderBy($sort, $direction)
                     ->paginate(10);
 
-        return view('admin.states.index', compact('states'));
+        return view('admin.states.index', compact('category', 'states'));
     }
 
-    public function create()
+    public function create(Category $category)
     {
-        return view('admin.states.create');
+        return view('admin.states.create', compact('category'));
     }
 
-    public function store(Request $request)
+    public function store(Category $category, Request $request)
     {
         $request->validate([
             'name' => 'required|unique:states|max:255',
         ]);
 
-        State::create([
+        $state = $category->states()->create([
             'name' => $request->name,
             'slug' => Str::slug($request->name),
         ]);
 
-        return redirect()->route('admin.states.index')->with('success', 'State created successfully.');
+        return redirect()->route('admin.states.index', $category)
+                         ->with('success', 'State created successfully.');
     }
 
-    public function show(State $state)
+    public function show(Category $category, State $state)
     {
-        return view('admin.states.show', compact('state'));
+        return view('admin.states.show', compact('category', 'state'));
     }
 
-    public function edit(State $state)
+    public function edit(Category $category, State $state)
     {
         $categories = Category::all();
-        return view('admin.states.edit', compact('state', 'categories'));
+        return view('admin.states.edit', compact('category', 'state', 'categories'));
     }
 
-    public function update(Request $request, State $state)
+    public function update(Request $request, Category $category, State $state)
     {
         $validatedData = $request->validate([
             'name' => 'required|unique:states,name,' . $state->id . '|max:255',
@@ -65,12 +66,16 @@ class StateController extends Controller
             'category_id' => $validatedData['category_id'],
         ]);
 
-        return redirect()->route('admin.states.index')->with('success', 'State updated successfully.');
+        $newCategory = Category::findOrFail($validatedData['category_id']);
+
+        return redirect()->route('admin.states.index', $newCategory)
+                         ->with('success', 'State updated successfully.');
     }
 
-    public function destroy(State $state)
+    public function destroy(Category $category, State $state)
     {
         $state->delete();
-        return redirect()->route('admin.states.index')->with('success', 'State deleted successfully.');
+        return redirect()->route('admin.states.index', $category)
+                         ->with('success', 'State deleted successfully.');
     }
 }

@@ -28,8 +28,8 @@ class DashboardController extends Controller
         // Categories
         $categories = Category::orderBy($sort, $direction)->paginate(10);
 
-        // States
-        $states = State::orderBy($sort, $direction)->paginate(10);
+        // States with their categories
+        $states = State::with('category')->orderBy($sort, $direction)->paginate(10);
 
         return view('dashboard', compact('posts', 'forms', 'categories', 'states'));
     }
