@@ -25,14 +25,14 @@ class FormController extends Controller
     public function category($category)
     {
         $category = Category::where('slug', $category)->firstOrFail();
-        return view('category.show', compact('category'));
+        return view('categories.show', compact('category'));
     }
 
-    public function state($category, $state)
+    public function state(Category $category, State $state)
     {
-        $category = Category::where('slug', $category)->firstOrFail();
-        $state = State::where('slug', $state)->firstOrFail();
-        $forms = $state->forms()->where('category_id', $category->id)->get();
+        $forms = Form::where('category_id', $category->id)
+                    ->where('state_id', $state->id)
+                    ->get();
 
         return view('state.show', compact('category', 'state', 'forms'));
     }
@@ -88,15 +88,8 @@ class FormController extends Controller
         return view('admin.forms.show', compact('form', 'category', 'state'));
     }
 
-    public function publicShow($category, $state, $form)
+    public function publicShow(Category $category, State $state, Form $form)
     {
-        $category = Category::where('slug', $category)->firstOrFail();
-        $state = State::where('slug', $state)->firstOrFail();
-        $form = Form::where('slug', $form)
-                    ->where('category_id', $category->id)
-                    ->where('state_id', $state->id)
-                    ->firstOrFail();
-
         return view('forms.show', compact('category', 'state', 'form'));
     }
 

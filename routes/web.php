@@ -8,6 +8,7 @@ use App\Http\Controllers\FormController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\StateController;
+use App\Http\Controllers\PublicCategoryController;
 
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
@@ -68,7 +69,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/forms/{form}', [FormController::class, 'show'])->name('admin.forms.show');
     Route::delete('/admin/forms/{form}', [AdminController::class, 'destroyForm'])->name('admin.forms.destroy');
 
-    // Admin state routes
     Route::get('/admin/categories/{category}/states', [StateController::class, 'index'])->name('admin.states.index');
     Route::get('/admin/categories/{category}/states/create', [StateController::class, 'create'])->name('admin.states.create');
     Route::post('/admin/categories/{category}/states', [StateController::class, 'store'])->name('admin.states.store');
@@ -88,7 +88,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 // Public routes for viewing categories, states, and forms
-Route::get('/{category}', [FormController::class, 'category'])->name('category.show');
+Route::get('/{category}', [PublicCategoryController::class, 'show'])->name('categories.show');
 Route::get('/{category}/{state}', [FormController::class, 'state'])->name('state.show');
 Route::get('/{category}/{state}/forms', [FormController::class, 'index'])->name('forms.index');
 Route::get('/{category}/{state}/{form}', [FormController::class, 'publicShow'])

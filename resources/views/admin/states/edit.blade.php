@@ -19,7 +19,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('admin.states.update', [$category->slug, $state->slug]) }}" method="POST">
+                    <form action="{{ route('admin.states.update', ['category' => $category, 'state' => $state]) }}" method="POST">
                         @csrf
                         @method('PUT')
                         
@@ -43,7 +43,7 @@
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                                 Update State
                             </button>
-                            <a href="{{ route('admin.states.index', $category->slug) }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            <a href="{{ route('admin.states.index', $category) }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                                 Cancel
                             </a>
                         </div>

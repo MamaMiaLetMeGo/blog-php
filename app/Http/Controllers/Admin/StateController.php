@@ -27,15 +27,15 @@ class StateController extends Controller
         return view('admin.states.create', compact('category'));
     }
 
-    public function store(Category $category, Request $request)
+    public function store(Request $request, Category $category)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|unique:states|max:255',
         ]);
 
         $state = $category->states()->create([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name),
+            'name' => $validatedData['name'],
+            'slug' => Str::slug($validatedData['name']),
         ]);
 
         return redirect()->route('admin.states.index', $category)
@@ -49,7 +49,7 @@ class StateController extends Controller
 
     public function edit(Category $category, State $state)
     {
-        $categories = Category::all();
+        $categories = Category::all(); // Add this line
         return view('admin.states.edit', compact('category', 'state', 'categories'));
     }
 
@@ -57,18 +57,14 @@ class StateController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|unique:states,name,' . $state->id . '|max:255',
-            'category_id' => 'required|exists:categories,id',
         ]);
 
         $state->update([
             'name' => $validatedData['name'],
             'slug' => Str::slug($validatedData['name']),
-            'category_id' => $validatedData['category_id'],
         ]);
 
-        $newCategory = Category::findOrFail($validatedData['category_id']);
-
-        return redirect()->route('admin.states.index', $newCategory)
+        return redirect()->route('admin.states.index', $category)
                          ->with('success', 'State updated successfully.');
     }
 

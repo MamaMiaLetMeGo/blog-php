@@ -36,7 +36,8 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        return view('admin.categories.show', compact('category'));
+        $states = $category->states;
+        return view('categories.show', compact('category', 'states'));
     }
 
     public function edit(Category $category)

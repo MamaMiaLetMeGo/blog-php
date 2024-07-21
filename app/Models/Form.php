@@ -18,4 +18,9 @@ class Form extends Model
     {
         return $this->belongsTo(State::class);
     }
+
+    public function getRouteKeyName()
+    {
+        return 'slug'; // or 'slug' if you prefer to use slugs in your URLs
+    }
 }
