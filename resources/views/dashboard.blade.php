@@ -116,7 +116,7 @@
                                     <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm font-medium text-gray-900">
-                                            <a href="{{ route('category.show', $category->slug) }}" class="text-indigo-600 hover:text-indigo-900">
+                                            <a href="{{ route('categories.show', $category->slug) }}" class="text-indigo-600 hover:text-indigo-900">
                                                 {{ $category->name }}
                                             </a>
                                         </div>

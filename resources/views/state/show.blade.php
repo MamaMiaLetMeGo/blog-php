@@ -12,7 +12,7 @@
                                 <ol class="list-reset flex text-sm">
                                     <li><a href="{{ route('home') }}" class="text-blue-600 hover:text-blue-700">Home</a></li>
                                     <li><span class="text-gray-500 mx-2">/</span></li>
-                                    <li><a href="{{ route('category.show', $category->slug) }}" class="text-blue-600 hover:text-blue-700">{{ $category->name }}</a></li>
+                                    <li><a href="{{ route('categories.show', $category->slug) }}" class="text-blue-600 hover:text-blue-700">{{ $category->name }}</a></li>
                                     <li><span class="text-gray-500 mx-2">/</span></li>
                                     <li class="text-gray-500">{{ $state->name }}</li>
                                 </ol>
