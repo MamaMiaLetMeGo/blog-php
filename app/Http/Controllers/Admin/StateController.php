@@ -57,15 +57,25 @@ class StateController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|unique:states,name,' . $state->id . '|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'content_header' => 'nullable|string',
+            'content' => 'nullable|string',
         ]);
 
         $state->update([
             'name' => $validatedData['name'],
             'slug' => Str::slug($validatedData['name']),
+            'category_id' => $validatedData['category_id'],
+            'content_header' => $validatedData['content_header'],
+            'content' => $validatedData['content'],
         ]);
 
-        return redirect()->route('admin.states.index', $category)
-                         ->with('success', 'State updated successfully.');
+        $newCategory = Category::find($validatedData['category_id']);
+        
+        return redirect()->route('state.show', [
+            'category' => $newCategory->slug,
+            'state' => $state->slug
+        ])->with('success', 'State updated successfully.');
     }
 
     public function destroy(Category $category, State $state)

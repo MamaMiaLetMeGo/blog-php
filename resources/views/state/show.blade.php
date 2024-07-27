@@ -5,7 +5,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="flex flex-col md:flex-row">
-                        <!-- Left side: Breadcrumbs, Title, Description -->
+                        <!-- Left side: Breadcrumbs, Title, Content Header -->
                         <div class="w-full md:w-2/3 pr-4 mb-4 md:mb-0">
                             <!-- Breadcrumbs -->
                             <nav class="mb-4">
@@ -20,9 +20,9 @@
                             
                             <h1 class="text-3xl font-bold mb-6">{{ $state->name }}</h1>
                             
-                            @if($state->description)
+                            @if($state->content_header)
                                 <div class="mb-6">
-                                    {{ $state->description }}
+                                    {!! $state->content_header !!}
                                 </div>
                             @endif
                         </div>
@@ -36,6 +36,17 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Main Content -->
+            @if($state->content)
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
+                    <div class="p-6 bg-white border-b border-gray-200">
+                        <div class="prose max-w-none">
+                            {!! $state->content !!}
+                        </div>
+                    </div>
+                </div>
+            @endif
 
             <!-- Forms List -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">

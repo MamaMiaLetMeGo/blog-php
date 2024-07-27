@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class State extends Model
 {
-    protected $fillable = ['name', 'slug', 'category_id'];
+    protected $fillable = ['name', 'slug', 'category_id', 'content_header', 'content'];
 
     public function forms()
     {

@@ -32,7 +32,13 @@ class FormController extends Controller
     {
         $forms = Form::where('category_id', $category->id)
                     ->where('state_id', $state->id)
+                    ->orderBy('name')  // Optional: sort forms by name
                     ->get();
+
+        // Ensure the state belongs to the category
+        if ($state->category_id !== $category->id) {
+            abort(404);
+        }
 
         return view('state.show', compact('category', 'state', 'forms'));
     }

@@ -19,7 +19,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('admin.states.update', ['category' => $category, 'state' => $state]) }}" method="POST">
+                    <form action="{{ route('admin.states.update', ['category' => $category->slug, 'state' => $state->slug]) }}" method="POST">
                         @csrf
                         @method('PUT')
                         
@@ -39,6 +39,16 @@
                             </select>
                         </div>
 
+                        <div class="mb-4">
+                            <label for="content_header" class="block text-gray-700 text-sm font-bold mb-2">Content Header:</label>
+                            <textarea id="content_header" name="content_header" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4">{{ old('content_header', $state->content_header) }}</textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="content" class="block text-gray-700 text-sm font-bold mb-2">Content:</label>
+                            <textarea id="content" name="content" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="8">{{ old('content', $state->content) }}</textarea>
+                        </div>
+
                         <div class="flex items-center justify-between">
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                                 Update State
@@ -52,4 +62,21 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#content_header'))
+            .catch(error => {
+                console.error(error);
+            });
+
+        ClassicEditor
+            .create(document.querySelector('#content'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+    @endpush
 </x-app-layout>
